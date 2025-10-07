@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FinanzAPP (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FinanzAPP (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

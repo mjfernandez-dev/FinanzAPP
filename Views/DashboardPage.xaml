@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FinanzAPP.Views.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Dashboard Financiero" 
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="0,0,0,24"/>
+
+        <!-- Resumen de Ingresos -->
+        <Grid Grid.Row="1" Margin="0,0,0,24">
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="8"
+                    Padding="20">
+                <StackPanel>
+                    <TextBlock Text="Ingresos Totales" 
+                               FontSize="16" 
+                               Opacity="0.7"/>
+                    <TextBlock Text="{x:Bind ViewModel.TotalIngresos, Mode=OneWay}" 
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Foreground="{ThemeResource SystemAccentColor}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- Modelo 50-30-20 -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Modelo 50-30-20" 
+                       Style="{StaticResource SubtitleTextBlockStyle}"
+                       Margin="0,0,0,16"/>
+
+            <StackPanel Grid.Row="1" Spacing="20">
+                <!-- Gastos Fijos -->
+                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="8"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="💰 Gastos Fijos (50%)" FontSize="18" FontWeight="SemiBold"/>
+                        <TextBlock>
+                            <Run Text="$"/><Run Text="{x:Bind ViewModel.GastosFijos, Mode=OneWay}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{x:Bind ViewModel.PorcentajeGastosFijos, Mode=OneWay}"/><Run Text="%"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Gustos -->
+                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="8"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="🎉 Gustos (30%)" FontSize="18" FontWeight="SemiBold"/>
+                        <TextBlock>
+                            <Run Text="$"/><Run Text="{x:Bind ViewModel.Gustos, Mode=OneWay}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{x:Bind ViewModel.PorcentajeGustos, Mode=OneWay}"/><Run Text="%"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <!-- Ahorro -->
+                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="8"
+                        Padding="20">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="📈 Ahorro e Inversión (20%)" FontSize="18" FontWeight="SemiBold"/>
+                        <TextBlock>
+                            <Run Text="$"/><Run Text="{x:Bind ViewModel.AhorroInversion, Mode=OneWay}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{x:Bind ViewModel.PorcentajeAhorro, Mode=OneWay}"/><Run Text="%"/>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

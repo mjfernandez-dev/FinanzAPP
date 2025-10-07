@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FinanzAPP.Views.TransaccionesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Transacciones" 
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="0,0,0,24"/>
+
+        <!-- Formulario -->
+        <StackPanel Grid.Row="1" Spacing="12" Margin="0,0,0,24" MaxWidth="500" HorizontalAlignment="Left">
+            <TextBox Header="Descripción" 
+                     PlaceholderText="Ej: Alquiler, Salida al cine..."
+                     Text="{x:Bind ViewModel.Descripcion, Mode=TwoWay}"/>
+
+            <TextBox Header="Monto" 
+                     PlaceholderText="0.00"
+                     InputScope="Number"
+                     Text="{x:Bind ViewModel.MontoTexto, Mode=TwoWay}"/>
+
+            <ComboBox Header="Tipo" 
+                      ItemsSource="{x:Bind ViewModel.TiposTransaccion}"
+                      SelectedItem="{x:Bind ViewModel.TipoSeleccionado, Mode=TwoWay}"
+                      HorizontalAlignment="Stretch"/>
+
+            <ComboBox Header="Categoría" 
+                      ItemsSource="{x:Bind ViewModel.Categorias}"
+                      SelectedItem="{x:Bind ViewModel.CategoriaSeleccionada, Mode=TwoWay}"
+                      HorizontalAlignment="Stretch"/>
+
+            <CalendarDatePicker Header="Fecha"
+                                Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
+                                HorizontalAlignment="Stretch"/>
+
+            <Button Content="Agregar Transacción" 
+                    Command="{x:Bind ViewModel.AgregarTransaccionCommand}"
+                    Style="{StaticResource AccentButtonStyle}"
+                    HorizontalAlignment="Stretch"/>
+        </StackPanel>
+
+        <!-- Lista de transacciones -->
+        <ListView Grid.Row="2" 
+                  ItemsSource="{x:Bind ViewModel.Transacciones, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="12" ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Descripcion}" FontWeight="SemiBold"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Monto}" Opacity="0.7"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Categoria}" Opacity="0.5"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
