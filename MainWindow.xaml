@@ -7,18 +7,50 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid RequestedTheme="Dark">
+        <Grid.Background>
+            <SolidColorBrush Color="#0D0D0D"/>
+        </Grid.Background>
+
         <NavigationView IsBackButtonVisible="Collapsed"
-                IsSettingsVisible="False"
-                PaneDisplayMode="Left"
-                SelectionChanged="NavigationView_SelectionChanged">
+                        IsSettingsVisible="False"
+                        PaneDisplayMode="Left"
+                        SelectionChanged="NavigationView_SelectionChanged"
+                        Background="{StaticResource SecondaryDarkBrush}">
+
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Dashboard" Icon="Home" Tag="Dashboard"/>
-                <NavigationViewItem Content="Transacciones" Icon="List" Tag="Transacciones"/>
-                <NavigationViewItem Content="Reportes" Icon="Document" Tag="Reportes"/>
+                <NavigationViewItem Content="Dashboard" Tag="Dashboard">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Transacciones" Tag="Transacciones">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8EF;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Objetivos" Tag="Objetivos">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE734;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Reportes" Tag="Reportes">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE9F9;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="Configuración" Tag="Configuracion">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
-            <Frame x:Name="ContentFrame"/>
+            <Frame x:Name="ContentFrame" Background="{StaticResource BackgroundDarkBrush}"/>
         </NavigationView>
     </Grid>
 </Window>

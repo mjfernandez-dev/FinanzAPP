@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Transacciones" 
+        <TextBlock Text="Transacciones (Gastos)" 
                    Style="{StaticResource TitleTextBlockStyle}"
                    Margin="0,0,0,24"/>
 
@@ -29,11 +29,6 @@
                      InputScope="Number"
                      Text="{x:Bind ViewModel.MontoTexto, Mode=TwoWay}"/>
 
-            <ComboBox Header="Tipo" 
-                      ItemsSource="{x:Bind ViewModel.TiposTransaccion}"
-                      SelectedItem="{x:Bind ViewModel.TipoSeleccionado, Mode=TwoWay}"
-                      HorizontalAlignment="Stretch"/>
-
             <ComboBox Header="Categoría" 
                       ItemsSource="{x:Bind ViewModel.Categorias}"
                       SelectedItem="{x:Bind ViewModel.CategoriaSeleccionada, Mode=TwoWay}"
@@ -43,7 +38,7 @@
                                 Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
                                 HorizontalAlignment="Stretch"/>
 
-            <Button Content="Agregar Transacción" 
+            <Button Content="Agregar Gasto" 
                     Command="{x:Bind ViewModel.AgregarTransaccionCommand}"
                     Style="{StaticResource AccentButtonStyle}"
                     HorizontalAlignment="Stretch"/>

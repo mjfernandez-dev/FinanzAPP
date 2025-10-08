@@ -8,20 +8,12 @@ namespace FinanzAPP.Models
         public string Descripcion { get; set; } = string.Empty;
         public decimal Monto { get; set; }
         public DateTime Fecha { get; set; }
-        public CategoriaTransaccion Categoria { get; set; }
-        public TipoTransaccion Tipo { get; set; }
+        public CategoriaGasto Categoria { get; set; }
     }
 
-    public enum CategoriaTransaccion
+    public enum CategoriaGasto
     {
-        GastosFijos,
-        Gustos,
-        AhorroInversion
-    }
-
-    public enum TipoTransaccion
-    {
-        Ingreso,
-        Egreso
+        Necesidades,  // 50%
+        Deseos        // 30%
     }
 }

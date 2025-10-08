@@ -13,7 +13,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="AppColors.xaml" />
+    <None Remove="Views\ConfiguracionPage.xaml" />
     <None Remove="Views\DashboardPage.xaml" />
+    <None Remove="Views\ObjetivosPage.xaml" />
     <None Remove="Views\TransaccionesPage.xaml" />
   </ItemGroup>
 
@@ -47,6 +50,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AppColors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ObjetivosPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ConfiguracionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\TransaccionesPage.xaml">

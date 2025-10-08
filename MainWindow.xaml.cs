@@ -26,6 +26,12 @@ namespace FinanzAPP
                     case "Transacciones":
                         ContentFrame.Navigate(typeof(TransaccionesPage));
                         break;
+                    case "Configuracion":
+                        ContentFrame.Navigate(typeof(ConfiguracionPage));
+                        break;
+                    case "Objetivos":
+                        ContentFrame.Navigate(typeof(ObjetivosPage));
+                        break;
                 }
             }
         }

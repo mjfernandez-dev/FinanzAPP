@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="FinanzAPP.Views.ConfiguracionPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Configuración" 
+                   Style="{StaticResource TitleTextBlockStyle}"
+                   Margin="0,0,0,24"/>
+
+        <StackPanel Grid.Row="1" Spacing="20" MaxWidth="500" HorizontalAlignment="Left">
+
+            <!-- Ingreso Mensual -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="8"
+                    Padding="20">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="💵 Ingreso Mensual" 
+                               FontSize="20" 
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock Text="Ingresá tu sueldo o ingresos mensuales totales. La app calculará automáticamente tu presupuesto 50/30/20."
+                               TextWrapping="Wrap"
+                               Opacity="0.7"/>
+
+                    <TextBox Header="Monto mensual" 
+                             PlaceholderText="Ej: 500000"
+                             InputScope="Number"
+                             Text="{x:Bind ViewModel.IngresoTexto, Mode=TwoWay}"
+                             Margin="0,8,0,0"/>
+
+                    <Button Content="Guardar Ingreso" 
+                            Command="{x:Bind ViewModel.GuardarIngresoCommand}"
+                            Style="{StaticResource AccentButtonStyle}"
+                            HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Vista previa del presupuesto -->
+            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="8"
+                    Padding="20"
+                    Visibility="{x:Bind ViewModel.MostrarVistaPrevia, Mode=OneWay}">
+                <StackPanel Spacing="8">
+                    <TextBlock Text="📊 Vista Previa del Presupuesto" 
+                               FontSize="18" 
+                               FontWeight="SemiBold"/>
+
+                    <TextBlock>
+                        <Run Text="Necesidades (50%): $"/><Run Text="{x:Bind ViewModel.VistaPreviaNecesidades, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="Deseos (30%): $"/><Run Text="{x:Bind ViewModel.VistaPreviaDeseos, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="Ahorro (20%): $"/><Run Text="{x:Bind ViewModel.VistaPreviaAhorro, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+
+        </StackPanel>
+    </Grid>
+</Page>

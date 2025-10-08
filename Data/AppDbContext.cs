@@ -8,10 +8,12 @@ namespace FinanzAPP.Data
     public class AppDbContext : DbContext
     {
         public DbSet<Transaccion> Transacciones { get; set; }
+        public DbSet<Ingreso> Ingresos { get; set; }
+        public DbSet<Objetivo> Objetivos { get; set; }
+        public DbSet<Aporte> Aportes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Ruta en la carpeta de datos de la app
             var carpetaDatos = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "FinanzAPP"
@@ -25,6 +27,15 @@ namespace FinanzAPP.Data
             var rutaDB = Path.Combine(carpetaDatos, "finanzas.db");
 
             optionsBuilder.UseSqlite($"Data Source={rutaDB}");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configurar relación Aporte -> Objetivo
+            modelBuilder.Entity<Aporte>()
+                .HasOne(a => a.Objetivo)
+                .WithMany()
+                .HasForeignKey(a => a.ObjetivoId);
         }
     }
 }

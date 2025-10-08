@@ -12,7 +12,8 @@ namespace FinanzAPP
             // Crear la base de datos al iniciar
             using (var db = new AppDbContext())
             {
-                db.Database.EnsureCreated();
+                db.Database.EnsureDeleted(); // Eliminar si existe
+                db.Database.EnsureCreated();  // Crear nueva
             }
         }
 

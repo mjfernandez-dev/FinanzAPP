@@ -24,15 +24,8 @@ namespace FinanzAPP.ViewModels
             set => SetProperty(ref _montoTexto, value);
         }
 
-        private TipoTransaccion _tipoSeleccionado;
-        public TipoTransaccion TipoSeleccionado
-        {
-            get => _tipoSeleccionado;
-            set => SetProperty(ref _tipoSeleccionado, value);
-        }
-
-        private CategoriaTransaccion _categoriaSeleccionada;
-        public CategoriaTransaccion CategoriaSeleccionada
+        private CategoriaGasto _categoriaSeleccionada;
+        public CategoriaGasto CategoriaSeleccionada
         {
             get => _categoriaSeleccionada;
             set => SetProperty(ref _categoriaSeleccionada, value);
@@ -46,24 +39,16 @@ namespace FinanzAPP.ViewModels
         }
 
         public ObservableCollection<Transaccion> Transacciones { get; set; }
-        public ObservableCollection<string> TiposTransaccion { get; set; }
         public ObservableCollection<string> Categorias { get; set; }
 
         public TransaccionesViewModel()
         {
             Transacciones = new ObservableCollection<Transaccion>();
 
-            TiposTransaccion = new ObservableCollection<string>
-            {
-                "Ingreso",
-                "Egreso"
-            };
-
             Categorias = new ObservableCollection<string>
             {
-                "GastosFijos",
-                "Gustos",
-                "AhorroInversion"
+                "Necesidades",
+                "Deseos"
             };
 
             CargarTransacciones();
@@ -72,7 +57,9 @@ namespace FinanzAPP.ViewModels
         private void CargarTransacciones()
         {
             using var db = new AppDbContext();
-            var transacciones = db.Transacciones.OrderByDescending(t => t.Fecha).ToList();
+            var transacciones = db.Transacciones
+                .OrderByDescending(t => t.Fecha)
+                .ToList();
 
             Transacciones.Clear();
             foreach (var t in transacciones)
@@ -95,8 +82,7 @@ namespace FinanzAPP.ViewModels
                 Descripcion = Descripcion,
                 Monto = monto,
                 Fecha = Fecha.DateTime,
-                Tipo = Enum.Parse<TipoTransaccion>(TipoSeleccionado.ToString()),
-                Categoria = Enum.Parse<CategoriaTransaccion>(CategoriaSeleccionada.ToString())
+                Categoria = Enum.Parse<CategoriaGasto>(CategoriaSeleccionada.ToString())
             };
 
             using (var db = new AppDbContext())
@@ -105,7 +91,6 @@ namespace FinanzAPP.ViewModels
                 db.SaveChanges();
             }
 
-            // Limpiar formulario
             Descripcion = string.Empty;
             MontoTexto = string.Empty;
 
