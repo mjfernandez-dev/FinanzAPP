@@ -5,6 +5,7 @@ using System;
 using FinanzAPP.Models;
 using FinanzAPP.Data;
 using System.Linq;
+using Microsoft.UI.Xaml;
 
 namespace FinanzAPP.ViewModels
 {
@@ -38,6 +39,28 @@ namespace FinanzAPP.ViewModels
             set => SetProperty(ref _fecha, value);
         }
 
+        // Propiedades para presupuesto disponible
+        private decimal _disponibleNecesidades;
+        public decimal DisponibleNecesidades
+        {
+            get => _disponibleNecesidades;
+            set => SetProperty(ref _disponibleNecesidades, value);
+        }
+
+        private decimal _disponibleDeseos;
+        public decimal DisponibleDeseos
+        {
+            get => _disponibleDeseos;
+            set => SetProperty(ref _disponibleDeseos, value);
+        }
+
+        private Visibility _mostrarMensajeVacio = Visibility.Collapsed;
+        public Visibility MostrarMensajeVacio
+        {
+            get => _mostrarMensajeVacio;
+            set => SetProperty(ref _mostrarMensajeVacio, value);
+        }
+
         public ObservableCollection<Transaccion> Transacciones { get; set; }
         public ObservableCollection<string> Categorias { get; set; }
 
@@ -52,6 +75,7 @@ namespace FinanzAPP.ViewModels
             };
 
             CargarTransacciones();
+            ActualizarPresupuestoDisponible();
         }
 
         private void CargarTransacciones()
@@ -65,6 +89,44 @@ namespace FinanzAPP.ViewModels
             foreach (var t in transacciones)
             {
                 Transacciones.Add(t);
+            }
+
+            MostrarMensajeVacio = Transacciones.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ActualizarPresupuestoDisponible()
+        {
+            using var db = new AppDbContext();
+
+            // Obtener ingreso activo
+            var ingresoActivo = db.Ingresos.FirstOrDefault(i => i.Activo);
+
+            if (ingresoActivo != null)
+            {
+                decimal necesidades = ingresoActivo.MontoMensual * 0.5m;
+                decimal deseos = ingresoActivo.MontoMensual * 0.3m;
+
+                // Calcular gastos del mes actual
+                var inicioMes = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                var transaccionesMes = db.Transacciones
+                    .Where(t => t.Fecha >= inicioMes)
+                    .ToList();
+
+                decimal gastadoNecesidades = transaccionesMes
+                    .Where(t => t.Categoria == CategoriaGasto.Necesidades)
+                    .Sum(t => t.Monto);
+
+                decimal gastadoDeseos = transaccionesMes
+                    .Where(t => t.Categoria == CategoriaGasto.Deseos)
+                    .Sum(t => t.Monto);
+
+                DisponibleNecesidades = necesidades - gastadoNecesidades;
+                DisponibleDeseos = deseos - gastadoDeseos;
+            }
+            else
+            {
+                DisponibleNecesidades = 0;
+                DisponibleDeseos = 0;
             }
         }
 
@@ -93,8 +155,27 @@ namespace FinanzAPP.ViewModels
 
             Descripcion = string.Empty;
             MontoTexto = string.Empty;
+            Fecha = DateTimeOffset.Now;
 
             CargarTransacciones();
+            ActualizarPresupuestoDisponible();
+        }
+
+        [RelayCommand]
+        private void EliminarTransaccion(Transaccion transaccion)
+        {
+            using (var db = new AppDbContext())
+            {
+                var transaccionDb = db.Transacciones.Find(transaccion.Id);
+                if (transaccionDb != null)
+                {
+                    db.Transacciones.Remove(transaccionDb);
+                    db.SaveChanges();
+                }
+            }
+
+            CargarTransacciones();
+            ActualizarPresupuestoDisponible();
         }
     }
 }

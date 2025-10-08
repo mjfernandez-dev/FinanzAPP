@@ -7,61 +7,248 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer>
+        <Grid Padding="24,32">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Text="Transacciones (Gastos)" 
-                   Style="{StaticResource TitleTextBlockStyle}"
-                   Margin="0,0,0,24"/>
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,32">
+                <TextBlock Text="💳 Transacciones" 
+                           FontSize="32" 
+                           FontWeight="Bold"
+                           Margin="0,0,0,8"/>
+                <TextBlock Text="Registra tus gastos y mantén control de tu presupuesto"
+                           FontSize="14"
+                           Opacity="0.7"/>
+            </StackPanel>
 
-        <!-- Formulario -->
-        <StackPanel Grid.Row="1" Spacing="12" Margin="0,0,0,24" MaxWidth="500" HorizontalAlignment="Left">
-            <TextBox Header="Descripción" 
-                     PlaceholderText="Ej: Alquiler, Salida al cine..."
-                     Text="{x:Bind ViewModel.Descripcion, Mode=TwoWay}"/>
+            <!-- Formulario de Nueva Transacción -->
+            <Border Grid.Row="1"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="12"
+                    Padding="24"
+                    Margin="0,0,0,32"
+                    BorderBrush="{StaticResource SuccessBrush}"
+                    BorderThickness="1">
+                <StackPanel Spacing="20">
+                    <TextBlock Text="➕ Nueva Transacción" 
+                               FontSize="22" 
+                               FontWeight="SemiBold"/>
 
-            <TextBox Header="Monto" 
-                     PlaceholderText="0.00"
-                     InputScope="Number"
-                     Text="{x:Bind ViewModel.MontoTexto, Mode=TwoWay}"/>
-
-            <ComboBox Header="Categoría" 
-                      ItemsSource="{x:Bind ViewModel.Categorias}"
-                      SelectedItem="{x:Bind ViewModel.CategoriaSeleccionada, Mode=TwoWay}"
-                      HorizontalAlignment="Stretch"/>
-
-            <CalendarDatePicker Header="Fecha"
-                                Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
-                                HorizontalAlignment="Stretch"/>
-
-            <Button Content="Agregar Gasto" 
-                    Command="{x:Bind ViewModel.AgregarTransaccionCommand}"
-                    Style="{StaticResource AccentButtonStyle}"
-                    HorizontalAlignment="Stretch"/>
-        </StackPanel>
-
-        <!-- Lista de transacciones -->
-        <ListView Grid.Row="2" 
-                  ItemsSource="{x:Bind ViewModel.Transacciones, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="12" ColumnSpacing="12">
+                    <Grid ColumnSpacing="20" RowSpacing="16">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" MinWidth="300"/>
+                            <ColumnDefinition Width="*" MinWidth="300"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <TextBlock Text="{Binding Descripcion}" FontWeight="SemiBold"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Monto}" Opacity="0.7"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Categoria}" Opacity="0.5"/>
+                        <!-- Descripción -->
+                        <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="📝" FontSize="14"/>
+                                <TextBlock Text="Descripción del gasto" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <TextBox PlaceholderText="Ej: Supermercado, Netflix, Cena..."
+                                     Text="{x:Bind ViewModel.Descripcion, Mode=TwoWay}"
+                                     FontSize="16"/>
+                        </StackPanel>
+
+                        <!-- Monto -->
+                        <StackPanel Grid.Row="0" Grid.Column="1" Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="💵" FontSize="14"/>
+                                <TextBlock Text="Monto gastado" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <TextBox PlaceholderText="0.00"
+                                     InputScope="Number"
+                                     Text="{x:Bind ViewModel.MontoTexto, Mode=TwoWay}"
+                                     FontSize="16"/>
+                        </StackPanel>
+
+                        <!-- Categoría -->
+                        <StackPanel Grid.Row="1" Grid.Column="0" Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="🏷️" FontSize="14"/>
+                                <TextBlock Text="Categoría" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <ComboBox ItemsSource="{x:Bind ViewModel.Categorias}"
+                                      SelectedItem="{x:Bind ViewModel.CategoriaSeleccionada, Mode=TwoWay}"
+                                      HorizontalAlignment="Stretch"
+                                      FontSize="16"/>
+                        </StackPanel>
+
+                        <!-- Fecha -->
+                        <StackPanel Grid.Row="1" Grid.Column="1" Spacing="8">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="📅" FontSize="14"/>
+                                <TextBlock Text="Fecha del gasto" FontSize="14" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <CalendarDatePicker Date="{x:Bind ViewModel.Fecha, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch"
+                                                FontSize="16"/>
+                        </StackPanel>
+
+                        <!-- Botón Agregar -->
+                        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                Content="Registrar Gasto" 
+                                Command="{x:Bind ViewModel.AgregarTransaccionCommand}"
+                                Style="{StaticResource AccentButtonStyle}"
+                                HorizontalAlignment="Right"
+                                Padding="48,16"
+                                FontSize="16"
+                                FontWeight="SemiBold"/>
                     </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+
+                    <!-- Info de presupuesto disponible -->
+                    <Border Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            CornerRadius="8"
+                            Padding="16">
+                        <Grid ColumnSpacing="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock Text="💰 Necesidades Disponibles" 
+                                           FontSize="13" 
+                                           Opacity="0.7"
+                                           Margin="0,0,0,4"/>
+                                <TextBlock FontSize="20" 
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource NecesidadesBrush}">
+                                    <Run Text="$"/><Run Text="{x:Bind ViewModel.DisponibleNecesidades, Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="🎉 Deseos Disponibles" 
+                                           FontSize="13" 
+                                           Opacity="0.7"
+                                           Margin="0,0,0,4"/>
+                                <TextBlock FontSize="20" 
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource DeseosBrush}">
+                                    <Run Text="$"/><Run Text="{x:Bind ViewModel.DisponibleDeseos, Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <!-- Historial de Transacciones -->
+            <StackPanel Grid.Row="2" Spacing="20">
+                <Grid>
+                    <TextBlock Text="📊 Historial de Gastos" 
+                               FontSize="22" 
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- Lista de transacciones mejorada -->
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Transacciones, Mode=OneWay}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="12"/>
+                    </ItemsRepeater.Layout>
+
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    CornerRadius="8"
+                                    Padding="20">
+                                <Grid ColumnSpacing="16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Icono de categoría -->
+                                    <Border Grid.Column="0"
+                                            Width="48"
+                                            Height="48"
+                                            CornerRadius="24"
+                                            VerticalAlignment="Center">
+                                        <Border.Background>
+                                            <SolidColorBrush Color="{ThemeResource DarkAccentColor}" Opacity="0.2"/>
+                                        </Border.Background>
+                                        <TextBlock FontSize="24"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center">
+                                            <Run Text="{Binding Categoria}"/>
+                                        </TextBlock>
+                                    </Border>
+
+                                    <!-- Descripción y fecha -->
+                                    <StackPanel Grid.Column="1" 
+                                                VerticalAlignment="Center"
+                                                Spacing="4">
+                                        <TextBlock Text="{Binding Descripcion}" 
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock FontSize="13" Opacity="0.6" TextWrapping="Wrap">
+                                            <Run Text="{Binding Fecha}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <!-- Monto -->
+                                    <TextBlock Grid.Column="2" 
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource NecesidadesBrush}"
+                                               Margin="12,0">
+                                        <Run Text="-$"/><Run Text="{Binding Monto}"/>
+                                    </TextBlock>
+
+                                    <!-- Botón eliminar -->
+                                    <Button Grid.Column="3"
+                                            Content="🗑️"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            FontSize="18"
+                                            Padding="12"
+                                            ToolTipService.ToolTip="Eliminar transacción"
+                                            Click="EliminarButton_Click"
+                                            Tag="{Binding}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <!-- Mensaje si no hay transacciones -->
+                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="8"
+                        Padding="48"
+                        Visibility="{x:Bind ViewModel.MostrarMensajeVacio, Mode=OneWay}">
+                    <StackPanel HorizontalAlignment="Center" Spacing="12">
+                        <TextBlock Text="📝" 
+                                   FontSize="48"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="No hay transacciones registradas" 
+                                   FontSize="18"
+                                   Opacity="0.7"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Comienza agregando tu primer gasto" 
+                                   FontSize="14"
+                                   Opacity="0.5"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </Page>
